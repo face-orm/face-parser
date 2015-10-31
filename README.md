@@ -1,4 +1,4 @@
 Face Parser
 ===========
 
-Advanced tools to write performant parser with php.
+Tool to help to create a parser with php. Originally built to parse FQL queries.

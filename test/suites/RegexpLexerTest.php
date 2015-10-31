@@ -4,19 +4,20 @@
  */
 namespace Face\Parser\Test;
 
-use Face\Parser\Lexer;
+use Face\Parser\Exception;
+use Face\Parser\RegexpLexer as Lexer;
 
-class LexerTest extends \PHPUnit_Framework_TestCase
+class RegexpLexerTest extends \PHPUnit_Framework_TestCase
 {
 
     /**
      * @var Lexer
      */
-    protected $abstractLexer;
+    protected $lexer;
 
     public function setup()
     {
-        $this->abstractLexer = new Lexer();
+        $this->lexer = new Lexer();
     }
 
 
@@ -26,8 +27,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             "[0-9]" => "T_DIGIT",
             "[A-Za-z]" => "T_CHAR"
         ];
-        $this->abstractLexer->setTokens($tokens);
-        $compiledTokens = $this->abstractLexer->compileTokens();
+        $this->lexer->setTokens($tokens);
+        $compiledTokens = $this->lexer->compileTokens();
         $this->assertEquals("<([0-9])|([A-Za-z])>A", $compiledTokens);
     }
 
@@ -38,8 +39,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             "[A-Za-z0-9]+"   => "T_ALNUM",
             '\s+'            => "T_WHITESPACE"
         ];
-        $this->abstractLexer->setTokens($tokens);
-        $tokens = $this->abstractLexer->tokenize("UPPER lower 1   145 4LPhanum");
+        $this->lexer->setTokens($tokens);
+        $tokens = $this->lexer->tokenize("UPPER lower 1   145 4LPhanum");
 
         $expected = [
 
@@ -66,7 +67,29 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         // Test invalid
 
         $this->setExpectedException("Face\Parser\ParsingException");
-        $this->abstractLexer->tokenize("UPPER lower 1   145 4LPhanum.");
+        $this->lexer->tokenize("UPPER lower 1   145 4LPhanum.");
 
     }
+
+    public function testCaseInsensitive(){
+        $tokens = [
+            "do something+"   => "T_DO_SOMETHING"
+        ];
+        $this->lexer->setTokens($tokens);
+
+        try {
+            $this->lexer->tokenize("do sOmething");
+            $this->fail("Exception was not thrown: regex was case sensitive");
+        } catch(Exception $e){}
+
+        $this->lexer->setCaseSensitive(false);
+        $tokens = $this->lexer->tokenize("do sOmeTHIng");
+        $this->assertCount(1, $tokens);
+        $this->assertSame("T_DO_SOMETHING", $tokens[0]->getTokenName());
+        $this->assertSame("do sOmeTHIng", $tokens[0]->getTokenValue());
+
+    }
+
+
+
 }

@@ -8,11 +8,13 @@ namespace Face\Parser;
 /**
  * Transforms a source string to tokens defined as regexp
  */
-class Lexer
+class RegexpLexer
 {
 
     protected $tokensRegexp;
     protected $tokensName;
+
+    protected $caseSensitive = true;
 
     /**
      * @param array $tokens the token in an array.
@@ -23,6 +25,23 @@ class Lexer
         $this->tokensName = array_values($tokens);
         $this->tokensRegexp = array_keys($tokens);
     }
+
+    /**
+     * @return boolean
+     */
+    public function isCaseSensitive()
+    {
+        return $this->caseSensitive;
+    }
+
+    /**
+     * @param boolean $caseSensitive
+     */
+    public function setCaseSensitive($caseSensitive)
+    {
+        $this->caseSensitive = $caseSensitive;
+    }
+
 
 
     public function tokenize($source)
@@ -37,8 +56,17 @@ class Lexer
             }
 
             // Find the match
-            for ($i = 1; '' === $matches[$i];
-            ++$i) {
+            $count = count($matches);
+            $match = null;
+            for ($i = 1; $i < $count; $i++) {
+                if ('' !== $matches[$i]) {
+                    $match = $matches[$i];
+                    break;
+                }
+            }
+
+            if (null === $match) {
+                throw new ParsingException(sprintf('Unexpected character "%s"', $source[$offset]));
             }
 
             // TODO line and column
@@ -58,6 +86,10 @@ class Lexer
     {
 
         $compiled = '<(' . implode(")|(", $this->tokensRegexp) . ')>A';
+
+        if(false == $this->caseSensitive){
+            $compiled .= "i";
+        }
 
         return $compiled;
 
