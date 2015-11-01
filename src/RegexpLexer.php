@@ -27,7 +27,8 @@ class RegexpLexer
         $this->tokensRegexp = array_keys($tokens);
     }
 
-    public function addIgnoredToken($token){
+    public function addIgnoredToken($token)
+    {
         $this->ignoredTokens[] = $token;
     }
 
@@ -75,7 +76,7 @@ class RegexpLexer
             }
 
             $tokenName = $this->tokensName[$i - 1];
-            if(!in_array($tokenName, $this->ignoredTokens)){
+            if (!in_array($tokenName, $this->ignoredTokens)) {
                 // TODO line and column
                 $line = 0;
                 $column = 0;
@@ -94,7 +95,7 @@ class RegexpLexer
 
         $compiled = '<(' . implode(")|(", $this->tokensRegexp) . ')>A';
 
-        if(false == $this->caseSensitive){
+        if (false == $this->caseSensitive) {
             $compiled .= "i";
         }
 

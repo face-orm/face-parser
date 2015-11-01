@@ -4,7 +4,7 @@ namespace Face\Parser\Test;
 
 use Face\Parser\RegexpLexer as Lexer;
 
-class scenarioClassWithMethodParseTest extends \PHPUnit_Framework_TestCase
+class ScenarioClassWithMethodParseTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testBuildingClassAndMethod()

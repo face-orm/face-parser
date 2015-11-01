@@ -8,13 +8,13 @@
 
 namespace Face\Parser\Test;
 
-
 use Face\Parser\TokenMatch;
 
 class TokenMatchTest extends \PHPUnit_Framework_TestCase
 {
 
-    public function testIs(){
+    public function testIs()
+    {
 
         $tokenMatch = new TokenMatch("T_FOO", "foo", 0, 0);
 
@@ -24,5 +24,4 @@ class TokenMatchTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($tokenMatch->is(["T_FOO", "T_BAR"]));
         $this->assertFalse($tokenMatch->is(["T_BAR", "T_BAZ"]));
     }
-
 }

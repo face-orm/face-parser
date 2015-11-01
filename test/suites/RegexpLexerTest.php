@@ -89,7 +89,8 @@ class RegexpLexerTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testCaseInsensitive(){
+    public function testCaseInsensitive()
+    {
         $tokens = [
             "do something+"   => "T_DO_SOMETHING"
         ];
@@ -98,7 +99,8 @@ class RegexpLexerTest extends \PHPUnit_Framework_TestCase
         try {
             $this->lexer->tokenize("do sOmething");
             $this->fail("Exception was not thrown: regex was case sensitive");
-        } catch(Exception $e){}
+        } catch (Exception $e) {
+        }
 
         $this->lexer->setCaseSensitive(false);
         $tokens = $this->lexer->tokenize("do sOmeTHIng");
@@ -107,7 +109,4 @@ class RegexpLexerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame("do sOmeTHIng", $tokens[0]->getTokenValue());
 
     }
-
-
-
 }

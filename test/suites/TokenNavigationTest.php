@@ -2,7 +2,6 @@
 
 namespace Face\Parser\Test;
 
-
 use Face\Parser\ParsingException;
 use Face\Parser\TokenMatch;
 use Face\Parser\TokenNavigation;
@@ -15,7 +14,8 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
      */
     protected $tokens;
 
-    public function setUp(){
+    public function setUp()
+    {
 
         $this->tokens = new TokenNavigation([
 
@@ -29,7 +29,8 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testNext(){
+    public function testNext()
+    {
 
         $token = $this->tokens->next();
         $this->assertEquals("T_FOO", $token->getTokenName());
@@ -45,7 +46,8 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testLook(){
+    public function testLook()
+    {
 
         $token = $this->tokens->look(0);
         $this->assertEquals("T_FOO", $token->getTokenName());
@@ -63,7 +65,8 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testCurrent(){
+    public function testCurrent()
+    {
         $token = $this->tokens->current();
         $this->assertEquals("T_FOO", $token->getTokenName());
         $this->tokens->next();
@@ -71,7 +74,8 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("T_WHITESPACE", $token->getTokenName());
     }
 
-    public function testHasNext(){
+    public function testHasNext()
+    {
         $this->assertTrue($this->tokens->hasNext());
         $this->tokens->next();
         $this->assertTrue($this->tokens->hasNext());
@@ -84,19 +88,21 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->tokens->hasNext());
     }
 
-    public function testExpectToBe(){
+    public function testExpectToBe()
+    {
         $this->tokens->expectToBe("T_FOO");
         $this->tokens->expectToBe(["T_FOO", "T_BAR"]);
 
-        try{
+        try {
             $this->tokens->expectToBe("T_BAR");
             $this->fail("Exception was not thrown");
-        }catch(ParsingException $e){}
-        try{
+        } catch (ParsingException $e) {
+        }
+        try {
             $this->tokens->expectToBe(["T_BAR", "T_BAZ"]);
             $this->fail("Exception was not thrown");
-        }catch(ParsingException $e){}
+        } catch (ParsingException $e) {
+        }
 
     }
-
 }
