@@ -46,6 +46,18 @@ class TokenNavigationTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testTokenName()
+    {
+        $this->assertEquals("T_FOO", $this->tokens->getTokenName());
+        $this->assertEquals("foo", $this->tokens->getTokenValue());
+        $this->tokens->next();
+        $this->assertEquals("T_WHITESPACE", $this->tokens->getTokenName());
+        $this->assertEquals(" ", $this->tokens->getTokenValue());
+        $this->tokens->next();
+        $this->assertEquals("T_FOO", $this->tokens->getTokenName());
+        $this->assertEquals("foo", $this->tokens->getTokenValue());
+    }
+
     public function testLook()
     {
 

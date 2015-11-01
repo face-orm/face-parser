@@ -53,16 +53,52 @@ class TokenNavigation
         throw new ParsingException("Unexpected end of file");
     }
 
+    /**
+     * Get the current token
+     * @return TokenMatch
+     */
     public function current()
     {
         return $this->tokens[$this->pointer];
     }
 
+    /**
+     * Check if has a next token
+     * @return bool
+     */
     public function hasNext()
     {
         return $this->pointer + 1 < count($this->tokens);
     }
 
+    /**
+     * Get the value of the current token
+     * @return string the value of the current token
+     */
+    public function getTokenValue()
+    {
+        return $this->current()->getTokenValue();
+    }
+
+    /**
+     * Get the name of the current token
+     * @return string the name of the current token
+     */
+    public function getTokenName()
+    {
+        return $this->current()->getTokenName();
+    }
+
+    /**
+     * Check if the token is one of the given type
+     * if number is omitted the current token will be checked
+     *
+     * if the check fails an exception is thrown
+     *
+     * @param string|array $tokenType  the type or list of types to check
+     * @param int $number index of the token to test relative to the current token
+     * @throws ParsingException
+     */
     public function expectToBe($tokenType, $number = 0)
     {
         $token = $this->look($number);
