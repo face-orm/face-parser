@@ -59,4 +59,15 @@ class TokenMatch
     {
         return $this->column;
     }
+
+    public function is($tokenName){
+
+        if(is_array($tokenName)){
+            return in_array($this->tokenName, $tokenName);
+        }else{
+            return $tokenName == $this->tokenName;
+        }
+
+    }
+
 }
