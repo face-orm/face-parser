@@ -20,7 +20,7 @@ class TokenMatch
      * @param int $line
      * @param int $column
      */
-    public function __construct($tokenName, $tokenValue, $line, $column)
+    public function __construct($tokenName, $tokenValue, $line = 0, $column = 0)
     {
         $this->tokenName = $tokenName;
         $this->tokenValue = $tokenValue;
