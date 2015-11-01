@@ -13,6 +13,7 @@ class RegexpLexer
 
     protected $tokensRegexp;
     protected $tokensName;
+    protected $ignoredTokens = [];
 
     protected $caseSensitive = true;
 
@@ -24,6 +25,10 @@ class RegexpLexer
     {
         $this->tokensName = array_values($tokens);
         $this->tokensRegexp = array_keys($tokens);
+    }
+
+    public function addIgnoredToken($token){
+        $this->ignoredTokens[] = $token;
     }
 
     /**
@@ -69,12 +74,14 @@ class RegexpLexer
                 throw new ParsingException(sprintf('Unexpected character "%s"', $source[$offset]));
             }
 
-            // TODO line and column
-            $line = 0;
-            $column = 0;
+            $tokenName = $this->tokensName[$i - 1];
+            if(!in_array($tokenName, $this->ignoredTokens)){
+                // TODO line and column
+                $line = 0;
+                $column = 0;
 
-            $foundTokens[] = new TokenMatch($this->tokensName[$i - 1], $matches[0], $line, $column);
-
+                $foundTokens[] = new TokenMatch($tokenName, $matches[0], $line, $column);
+            }
             $offset += strlen($matches[0]);
         }
 

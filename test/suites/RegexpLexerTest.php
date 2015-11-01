@@ -32,6 +32,24 @@ class RegexpLexerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("<([0-9])|([A-Za-z])>A", $compiledTokens);
     }
 
+    public function testIgnoredTokenTokens()
+    {
+        $tokens = [
+            "Hello" => "T_HELLO",
+            "World" => "T_WORLD",
+            "\\s" => "T_WHITESPACE"
+        ];
+        $this->lexer->setTokens($tokens);
+        $this->lexer->addIgnoredToken("T_WHITESPACE");
+
+        $tokens = $this->lexer->tokenize(" Hello World  ");
+
+        $this->assertCount(2, $tokens);
+        $this->assertEquals("T_HELLO", $tokens[0]->getTokenName());
+        $this->assertEquals("T_WORLD", $tokens[1]->getTokenName());
+
+    }
+
     public function testTokenizeAlphanumSource()
     {
 
