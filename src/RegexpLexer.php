@@ -95,7 +95,7 @@ class RegexpLexer
 
         $compiled = '<(' . implode(")|(", $this->tokensRegexp) . ')>A';
 
-        if (false == $this->caseSensitive) {
+        if (false == $this->isCaseSensitive()) {
             $compiled .= "i";
         }
 

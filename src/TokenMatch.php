@@ -44,21 +44,6 @@ class TokenMatch
         return $this->tokenValue;
     }
 
-    /**
-     * @return int
-     */
-    public function getLine()
-    {
-        return $this->line;
-    }
-
-    /**
-     * @return int
-     */
-    public function getColumn()
-    {
-        return $this->column;
-    }
 
     public function is($tokenName)
     {
