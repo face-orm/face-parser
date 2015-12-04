@@ -5,6 +5,7 @@
 namespace Face\Parser\Test;
 
 use Face\Parser\Exception;
+use Face\Parser\ParsingException;
 use Face\Parser\RegexpLexer as Lexer;
 
 class RegexpLexerTest extends \PHPUnit_Framework_TestCase
@@ -87,6 +88,18 @@ class RegexpLexerTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("Face\Parser\ParsingException");
         $this->lexer->tokenize("UPPER lower 1   145 4LPhanum.");
 
+    }
+
+    public function testParsingException()
+    {
+        $tokens = [
+            "[A-Za-z0-9]+" => "T_ALNUM",
+            '\s+' => "T_WHITESPACE"
+        ];
+        $this->lexer->setTokens($tokens);
+
+        $this->setExpectedException(ParsingException::class);
+        $this->lexer->tokenize('$ is not valid');
     }
 
     public function testCaseInsensitive()
